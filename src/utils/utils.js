@@ -9,3 +9,9 @@ export default function getAllArticles(page) {
     return response.data;
   });
 }
+
+export function getArticleById(article_id){
+  return newsApi.get(`/articles/${article_id}`).then((response) => {
+    return response.data
+  })
+}

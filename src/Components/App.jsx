@@ -5,6 +5,7 @@ import ArticleList from "./ArticleList";
 import Home from "./Home";
 import { useState } from "react";
 import Navigation from "./Navigation";
+import ArticleCard from "./ArticleCard";
 
 function App() {
   const [articleList, setArticleList] = useState([]);
@@ -14,6 +15,7 @@ function App() {
       <Header />
       <Navigation />
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route
           path="/articles"
           element={
@@ -23,7 +25,7 @@ function App() {
             />
           }
         />
-        <Route path="/" element={<Home />} />
+        <Route path="/articles/:article_id" element={<ArticleCard />}/>
       </Routes>
     </>
   );
