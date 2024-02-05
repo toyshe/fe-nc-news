@@ -11,11 +11,38 @@ body{
 }
 
 .article-item {
-  width: calc(33.33% - 10px); /* Adjust the width and margin as needed */
+  width: calc(33.33% - 10px); 
   margin-bottom: 20px;
 }
 
 .article-item img{
   width: 100%;
   margin-bottom: 10px;
+}
+
+.article-info {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.article-info p {
+  margin-right: 30px;
+  font-weight: bold;
+}
+
+.article-main{
+  display: flex;
+  align-items: flex-start;
+  overflow: hidden;
+  /* position: relative; */
+  /* flex-wrap: wrap; */
+}
+
+.article-main img{
+  margin-right: 10px;
+  /* max-width: 100%; */
+}
+
+.article-main p{
+  flex: 1;
 }

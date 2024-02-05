@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import getAllArticles from "../utils/utils";
-import { Link, useNavigate } from "react-router-dom";
-import Home from "./Home";
+import { useNavigate } from "react-router-dom";
 
 export default function ArticleList({ articleList, setArticleList }) {
   const [page, setPage] = useState(1);
@@ -22,17 +21,24 @@ export default function ArticleList({ articleList, setArticleList }) {
     navigate(`/articles?p=${pageNumber}`);
   };
 
+  const handleArticleClick = (article) => {
+    navigate(`/articles/${article.article_id}`)
+  }
+
   return (
     <div className="article-list">
       <ul className="article-list-box">
         {articleList.map((article) => (
           <li key={article.article_id} className="article-item">
+              <button onClick={() => handleArticleClick(article)}>
+
               <p>{article.title}</p>
               <img src={article.article_img_url} alt={article.title} />
-              <p>{article.author}</p>
-              <p>{article.topic}</p>
+              <p>Author: {article.author}</p>
+              <p>Topic: {article.topic}</p>
               <p>Comment Count: {article.comment_count}</p>
               <p>Votes: {article.votes}</p>
+              </button>
           </li>
         ))}
       </ul>
