@@ -1,16 +1,23 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getArticleById } from "../utils/utils";
+import ArticleComments from "./ArticleComments";
 
 export default function ArticleCard() {
   const { article_id } = useParams();
   const [articleInfo, setArticleInfo] = useState({});
+  const [isOpen, setIsOpen] = useState(false)
+
   useEffect(() => {
     getArticleById(article_id).then(({ article }) => {
       console.log(article);
       setArticleInfo(article);
     });
   }, []);
+
+  const toggleOpen = () => {
+    setIsOpen((currentIsOpen) => !currentIsOpen)
+  }
 
   return (
     <div className="article-card">
@@ -27,6 +34,8 @@ export default function ArticleCard() {
       <p>Comment count: {articleInfo.comment_count}</p>
       <p>Votes: {articleInfo.votes}</p> 
       <button>Vote</button>
+      <button onClick={toggleOpen} >{isOpen ? 'Hide' : 'Show'} Comments</button>
+      {isOpen ? <ArticleComments /> : null}
     </div>
   );
 }
