@@ -10,34 +10,45 @@ export default function getAllArticles(page) {
   });
 }
 
-export function getArticleById(article_id){
+export function getArticleById(article_id) {
   return newsApi.get(`/articles/${article_id}`).then((response) => {
-    return response.data
-  })
+    return response.data;
+  });
 }
 
-export function getCommentsByArticleId(article_id){
+export function getCommentsByArticleId(article_id) {
   return newsApi.get(`/articles/${article_id}/comments`).then((response) => {
     return response.data;
-  })
+  });
 }
 
-export function patchArticleVotes(article_id, incVotes){
-  return newsApi.patch(`/articles/${article_id}`,{ inc_votes: incVotes })
-    .then(response => {
-      return response.data.article; 
+export function patchArticleVotes(article_id, incVotes) {
+  return newsApi
+    .patch(`/articles/${article_id}`, { inc_votes: incVotes })
+    .then((response) => {
+      return response.data.article;
     })
     .catch((err) => {
-      throw err
-    })
-};
+      throw err;
+    });
+}
 
-export function postCommentOnArticle(article_id, {username, body}){
-  return newsApi.post(`/articles/${article_id}/comments`, {username: username, body: body})
-  .then((response) => {
-    return response.data
-  })
-  .catch(err => {
-    throw err
-  })
+export function postCommentOnArticle(article_id, { username, body }) {
+  return newsApi
+    .post(`/articles/${article_id}/comments`, {
+      username: username,
+      body: body,
+    })
+    .then((response) => {
+      return response.data;
+    })
+    .catch((err) => {
+      throw err;
+    });
+}
+
+export function deleteCommentsOnArticle(comment_id) {
+  return newsApi.delete(`/comments/${comment_id}`).catch((err) => {
+    throw err;
+  });
 }
