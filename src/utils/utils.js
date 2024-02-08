@@ -31,3 +31,13 @@ export function patchArticleVotes(article_id, incVotes){
       throw err
     })
 };
+
+export function postCommentOnArticle(article_id, {username, body}){
+  return newsApi.post(`/articles/${article_id}/comments`, {username: username, body: body})
+  .then((response) => {
+    return response.data
+  })
+  .catch(err => {
+    throw err
+  })
+}

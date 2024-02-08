@@ -7,15 +7,14 @@ export default function ArticleList({ articleList, setArticleList }) {
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
-
   useEffect(() => {
-    getAllArticles().then(({articles}) => {
-      setTotalPages(Math.ceil(articles.length / 10))
-    })
-    getAllArticles(page).then(({articles}) => {
-      setArticleList(articles)
-    })
-  }, [page])
+    getAllArticles().then(({ articles }) => {
+      setTotalPages(Math.ceil(articles.length / 10));
+    });
+    getAllArticles(page).then(({ articles }) => {
+      setArticleList(articles);
+    });
+  }, [page]);
 
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
@@ -36,6 +35,8 @@ export default function ArticleList({ articleList, setArticleList }) {
               <img src={article.article_img_url} alt={article.title} />
               <p>Author: {article.author}</p>
               <p>Topic: {article.topic}</p>
+              <p>Vote: {article.votes}</p>
+              <p>Comment Count: {article.comment_count}</p>
             </button>
           </li>
         ))}
