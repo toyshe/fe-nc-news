@@ -17,7 +17,17 @@ export function getArticleById(article_id){
 }
 
 export function getCommentsByArticleId(article_id){
-  return newsApi.get(`/articles//${article_id}/comments`).then((response) => {
+  return newsApi.get(`/articles/${article_id}/comments`).then((response) => {
     return response.data;
   })
 }
+
+export function patchArticleVotes(article_id, incVotes){
+  return newsApi.patch(`/articles/${article_id}`,{ inc_votes: incVotes })
+    .then(response => {
+      return response.data.article; 
+    })
+    .catch((err) => {
+      throw err
+    })
+};

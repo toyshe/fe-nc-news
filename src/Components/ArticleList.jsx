@@ -7,14 +7,15 @@ export default function ArticleList({ articleList, setArticleList }) {
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
+
   useEffect(() => {
-    getAllArticles().then((data) => {
-      setTotalPages(Math.ceil(data.articles.length / 10));
-    });
-    getAllArticles(page).then((data) => {
-      setArticleList(data.articles);
-    });
-  }, [page]);
+    getAllArticles().then(({articles}) => {
+      setTotalPages(Math.ceil(articles.length / 10))
+    })
+    getAllArticles(page).then(({articles}) => {
+      setArticleList(articles)
+    })
+  }, [page])
 
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
@@ -22,23 +23,20 @@ export default function ArticleList({ articleList, setArticleList }) {
   };
 
   const handleArticleClick = (article) => {
-    navigate(`/articles/${article.article_id}`)
-  }
+    navigate(`/articles/${article.article_id}`);
+  };
 
   return (
     <div className="article-list">
       <ul className="article-list-box">
         {articleList.map((article) => (
           <li key={article.article_id} className="article-item">
-              <button onClick={() => handleArticleClick(article)}>
-
+            <button onClick={() => handleArticleClick(article)}>
               <p>{article.title}</p>
               <img src={article.article_img_url} alt={article.title} />
               <p>Author: {article.author}</p>
               <p>Topic: {article.topic}</p>
-              <p>Comment Count: {article.comment_count}</p>
-              <p>Votes: {article.votes}</p>
-              </button>
+            </button>
           </li>
         ))}
       </ul>

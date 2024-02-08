@@ -3,7 +3,7 @@ import "../App.css";
 import Header from "./Header";
 import ArticleList from "./ArticleList";
 import Home from "./Home";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navigation from "./Navigation";
 import ArticleCard from "./ArticleCard";
 
