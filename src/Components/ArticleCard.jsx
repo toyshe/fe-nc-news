@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getArticleById, patchArticleVotes } from "../utils/utils";
+import { getArticleById } from "../utils/utils";
 import ArticleComments from "./ArticleComments";
 import PostComment from "./PostComment";
 import VoteArticle from "./VoteArticle";
@@ -23,7 +23,7 @@ export default function ArticleCard() {
         setError(err);
         setIsLoading(false);
       });
-  }, []);
+  }, [articleInfo]);
 
   if (error) {
     return <p>{error.message}</p>;

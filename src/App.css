@@ -70,6 +70,15 @@ body {
   padding-right: 15px;
 }
 
+.comment-vote{
+  margin-left: 40px;
+  margin-right: 10px;
+}
+
 .comment-comment{
   padding-right: 15px;
+}
+
+#deleteCommentButton{
+  margin-left: 1rem;;
 }
