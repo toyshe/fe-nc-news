@@ -1,29 +1,28 @@
 import { useEffect, useState } from "react";
 import getAllArticles from "../utils/utils";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import SortArticles from "./SortArticles";
 
 export default function ArticleList({
   articleList,
   setArticleList,
-  articleTopic
+  articleTopic,
 }) {
-  
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
+  const [sortBy, setSortBy] = useState('')
+  const [order, setOrder] = useState('')
   const navigate = useNavigate();
-  const location = useLocation()
 
   useEffect(() => {
     getAllArticles(articleTopic).then(({ articles }) => {
       setTotalPages(Math.ceil(articles.length / 10));
     });
 
-    getAllArticles(articleTopic, page).then(({ articles }) => {
+    getAllArticles(articleTopic, sortBy, order, page).then(({ articles }) => {
       setArticleList(articles);
     });
-  }, [articleTopic, page]);
-
-
+  }, [articleTopic, page, sortBy, order]);
 
   const handleArticleClick = (article) => {
     navigate(`/articles/${article.article_id}`);
@@ -31,11 +30,18 @@ export default function ArticleList({
 
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
-    navigate(`${articleTopic ? `/articles?topic=${articleTopic}&&p=${pageNumber}` : `/articles?p=${pageNumber}`}`);
+    navigate(
+      `${
+        articleTopic
+          ? `/articles?topic=${articleTopic}&&p=${pageNumber}`
+          : `/articles?p=${pageNumber}`
+      }`
+    );
   };
 
   return (
     <div className="article-list">
+      <SortArticles setSortBy={setSortBy} setOrder={setOrder} />
       <ul className="article-list-box">
         {articleList.map((article) => (
           <li key={article.article_id} className="article-item">
@@ -51,7 +57,6 @@ export default function ArticleList({
         ))}
       </ul>
       <div className="pagination-buttons">
-
         {Array.from({ length: totalPages }).map((_, index) => (
           <button
             key={index + 1}
