@@ -23,7 +23,7 @@ export default function ArticleCard() {
         setError(err);
         setIsLoading(false);
       });
-  }, [articleInfo]);
+  }, [articleInfo.comment_count]);
 
   if (error) {
     return <p>{error.message}</p>;

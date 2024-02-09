@@ -1,28 +1,37 @@
 import { useEffect, useState } from "react";
 import getAllArticles from "../utils/utils";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-export default function ArticleList({ articleList, setArticleList }) {
-  const [page, setPage] = useState(1);
+export default function ArticleList({
+  articleList,
+  setArticleList,
+  articleTopic
+}) {
+  
   const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
+  const location = useLocation()
 
   useEffect(() => {
-    getAllArticles().then(({ articles }) => {
+    getAllArticles(articleTopic).then(({ articles }) => {
       setTotalPages(Math.ceil(articles.length / 10));
     });
-    getAllArticles(page).then(({ articles }) => {
+
+    getAllArticles(articleTopic, page).then(({ articles }) => {
       setArticleList(articles);
     });
-  }, [page]);
+  }, [articleTopic, page]);
 
-  const handlePageChange = (pageNumber) => {
-    setPage(pageNumber);
-    navigate(`/articles?p=${pageNumber}`);
-  };
+
 
   const handleArticleClick = (article) => {
     navigate(`/articles/${article.article_id}`);
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setPage(pageNumber);
+    navigate(`${articleTopic ? `/articles?topic=${articleTopic}&&p=${pageNumber}` : `/articles?p=${pageNumber}`}`);
   };
 
   return (
@@ -42,6 +51,7 @@ export default function ArticleList({ articleList, setArticleList }) {
         ))}
       </ul>
       <div className="pagination-buttons">
+
         {Array.from({ length: totalPages }).map((_, index) => (
           <button
             key={index + 1}
