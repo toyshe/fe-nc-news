@@ -19,14 +19,11 @@ function App() {
   });
   const [articleTopic, setArticleTopic] = useState('')
 
-
-
-
   return (
     <>
       <UserContext.Provider value={{loggedInUser, setLoggedInUser}} >
         <Header />
-        <Navigation articleTopic={articleTopic} setArticleTopic={setArticleTopic} />
+        <Navigation setArticleTopic={setArticleTopic} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/articles" element={

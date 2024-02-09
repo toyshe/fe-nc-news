@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getTopics } from "../utils/utils";
 import { useNavigate } from "react-router-dom";
 
-export default function TopicsSelect({ articleTopic, setArticleTopic }) {
+export default function TopicsSelect({ setArticleTopic }) {
   const [topicsList, setTopicsList] = useState([]);
   const navigate = useNavigate();
 
