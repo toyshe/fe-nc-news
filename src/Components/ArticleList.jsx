@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import getAllArticles from "../utils/utils";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import SortArticles from "./SortArticles";
-import ErrorHandling from './ErrorHandling'
-import Loading from "./Loading";
+import ErrorHandling from "./ErrorHandling";
 
 export default function ArticleList({
   articleList,
@@ -15,25 +14,26 @@ export default function ArticleList({
   const [sortBy, setSortBy] = useState("");
   const [order, setOrder] = useState("");
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true)
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    setLoading(true)
-    getAllArticles(articleTopic).then(({ articles }) => {
-      setTotalPages(Math.ceil(articles.length / 10));
+    getAllArticles(articleTopic || searchParams.get("topic")).then(({ total_count }) => {
+      setTotalPages(Math.ceil(total_count / 10));
     });
-
-    getAllArticles(articleTopic, sortBy, order, page)
+    getAllArticles(
+      searchParams.get("topic"),
+      sortBy,
+      order,
+      searchParams.get("p")
+    )
       .then(({ articles }) => {
         setArticleList(articles);
-        setLoading(false)
       })
       .catch((err) => {
         setError(err);
-        setLoading(false)
       });
-  }, [articleTopic, page, sortBy, order]);
+  }, [page, searchParams, sortBy, order]);
 
   const handleArticleClick = (article) => {
     navigate(`/articles/${article.article_id}`);
@@ -43,16 +43,16 @@ export default function ArticleList({
     setPage(pageNumber);
     navigate(
       `${
-        articleTopic
-          ? `/articles?topic=${articleTopic}&&p=${pageNumber}`
+        searchParams.get("topic")
+          ? `/articles?topic=${searchParams.get("topic")}&p=${pageNumber}`
           : `/articles?p=${pageNumber}`
       }`
     );
   };
 
-  if(error){return <ErrorHandling error={error} />}
-
-  if(loading){return <Loading loadingHeader='articles' />}
+  if (error) {
+    return <ErrorHandling error={error} />;
+  }
 
   return (
     <div className="article-list">
@@ -85,3 +85,4 @@ export default function ArticleList({
     </div>
   );
 }
+
