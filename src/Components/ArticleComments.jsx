@@ -5,6 +5,8 @@ import {
 } from "../utils/utils";
 import { useParams } from "react-router-dom";
 import UserContext from "../Contexts/UserContext";
+import ErrorHandling from "./ErrorHandling";
+import Loading from "./Loading";
 
 export default function ArticleComments({
   commentsOnArticle,
@@ -37,11 +39,11 @@ export default function ArticleComments({
       });
   };
   if (error) {
-    return <p>{error.message}</p>;
+    return <ErrorHandling error={error} />
   }
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loading loadingHeader='comments' />
   }
 
   return (

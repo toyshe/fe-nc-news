@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { patchArticleVotes } from "../utils/utils";
 import { useParams } from "react-router-dom";
+import ErrorHandling from "./ErrorHandling";
 
-export default function VoteArticle({articleInfo, setArticleInfo}) {
-    const { article_id } = useParams();
+export default function VoteArticle({ articleInfo, setArticleInfo }) {
+  const { article_id } = useParams();
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   const updateVote = (num) => {
     setArticleInfo((currentArticle) => {
@@ -15,14 +15,9 @@ export default function VoteArticle({articleInfo, setArticleInfo}) {
       clonedArticle.votes = clonedArticle.votes + num;
       return clonedArticle;
     });
-    patchArticleVotes(article_id, num)
-      .then((data) => {
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        setError(err);
-        setIsLoading(false);
-      });
+    patchArticleVotes(article_id, num).catch((err) => {
+      setError(err);
+    });
     if (num === 1) {
       setLiked(true);
       setDisliked(false);
@@ -33,12 +28,8 @@ export default function VoteArticle({articleInfo, setArticleInfo}) {
   };
 
   if (error) {
-    return <p>{error.message}</p>;
+    return <ErrorHandling error={error} />;
   }
-
-//   if (isLoading) {
-//     return <div>Loading Votes...</div>;
-//   }
 
   return (
     <>

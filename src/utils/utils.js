@@ -24,13 +24,15 @@ export default function getAllArticles(topic, sortBy, order, page) {
 export function getArticleById(article_id) {
   return newsApi.get(`/articles/${article_id}`).then((response) => {
     return response.data;
-  });
+  }).catch(err => {
+    throw err
+  })
 }
 
 export function getCommentsByArticleId(article_id) {
   return newsApi.get(`/articles/${article_id}/comments`).then((response) => {
     return response.data;
-  });
+  }).catch((err) => {throw err})
 }
 
 export function patchArticleVotes(article_id, incVotes) {

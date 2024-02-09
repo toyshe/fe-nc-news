@@ -4,6 +4,8 @@ import { getArticleById } from "../utils/utils";
 import ArticleComments from "./ArticleComments";
 import PostComment from "./PostComment";
 import VoteArticle from "./VoteArticle";
+import ErrorHandling from "./ErrorHandling";
+import Loading from "./Loading";
 
 export default function ArticleCard() {
   const { article_id } = useParams();
@@ -26,11 +28,11 @@ export default function ArticleCard() {
   }, [articleInfo.comment_count]);
 
   if (error) {
-    return <p>{error.message}</p>;
+    return <ErrorHandling error={error} />
   }
 
   if (isLoading) {
-    return <div>Loading article...</div>;
+    return <Loading loadingHeader='article'/>
   }
 
   const toggleOpen = () => {

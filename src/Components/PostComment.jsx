@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { postCommentOnArticle } from "../utils/utils";
 import { useParams } from "react-router-dom";
 import UserContext from "../Contexts/UserContext";
+import ErrorHandling from "./ErrorHandling";
 
 export default function PostComment({ setCommentsOnArticle }) {
   const [userInputComment, setUserInputComment] = useState("");
@@ -28,7 +29,7 @@ export default function PostComment({ setCommentsOnArticle }) {
   };
 
   if (error) {
-    return <p>{error.message}</p>;
+    return <ErrorHandling error={error} />;
   }
 
   const handleChange = (event) => {
