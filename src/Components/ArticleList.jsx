@@ -25,7 +25,7 @@ export default function ArticleList({
       searchParams.get("topic"),
       sortBy,
       order,
-      searchParams.get("p")
+      searchParams.get("p") || page
     )
       .then(({ articles }) => {
         setArticleList(articles);
