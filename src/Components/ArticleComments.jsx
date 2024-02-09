@@ -6,24 +6,42 @@ import {
 import { useParams } from "react-router-dom";
 import UserContext from "../Contexts/UserContext";
 
-export default function ArticleComments({ commentsOnArticle, setCommentsOnArticle }) {
+export default function ArticleComments({
+  commentsOnArticle,
+  setCommentsOnArticle,
+}) {
   const { article_id } = useParams();
   const { loggedInUser } = useContext(UserContext);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getCommentsByArticleId(article_id).then(({ comments }) => {
       setCommentsOnArticle(comments);
+      setIsLoading(false);
     });
-  });
+  }, []);
 
   const handleDeleteComment = (comment_id) => {
-    deleteCommentsOnArticle(comment_id).catch((err) => {
-      setError(err);
-    });
+    setIsLoading(true)
+    deleteCommentsOnArticle(comment_id)
+      .then(() => {
+        setCommentsOnArticle((prevComments) =>
+          prevComments.filter((comment) => comment.comment_id !== comment_id)
+        );
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setIsLoading(false)
+        setError(err);
+      });
   };
   if (error) {
     return <p>{error.message}</p>;
+  }
+
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
 
   return (
